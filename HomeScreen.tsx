@@ -5,7 +5,7 @@ import {useTransactions} from './TransactionContext';
 const HomeScreen = ({navigation}): React.JSX.Element => {
   const {transactions, balance} = useTransactions();
 
-  const renderItem = ({item}) => (
+  const renderItem = ({item}): React.JSX.Element => (
     <View style={styles.item}>
       <Text style={styles.itemText}>Transaction ID: {item.id}</Text>
       <Text style={styles.itemText}>Amount: ${item.amount.toFixed(2)}</Text>

@@ -1,20 +1,27 @@
-import React, {createContext, useState, useContext, useEffect} from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  BALANCE_STORAGE_KEY,
+  TRANSACTION_STORAGE_KEY,
+  TypeTransaction,
+} from './constants';
 
-const TransactionContext = createContext();
+const TransactionContext = createContext(null);
 
-// export const useAsyncStorage = () => {
-//   return useContext(AsyncStorageContext);
-// };
+export const useTransactions: any = () => useContext(TransactionContext);
 
-export const useTransactions = () => useContext(TransactionContext);
-
-// export const beneficiaries_key = 'beneficiaries';
-export const TRANSACTION_STORAGE_KEY = 'TRANSACTION_STORAGE_KEY';
-export const BALANCE_STORAGE_KEY = 'BALANCE_STORAGE_KEY';
-
-export const TransactionProvider = ({children}): React.JSX.Element => {
-  const [transactions, setTransactions] = useState<any[]>([]);
+export const TransactionProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): React.JSX.Element => {
+  const [transactions, setTransactions] = useState<TypeTransaction[]>([]);
   const [balance, setBalance] = useState(1000);
 
   useEffect(() => {
@@ -38,16 +45,6 @@ export const TransactionProvider = ({children}): React.JSX.Element => {
       console.error('Error loading data from AsyncStorage:', error);
     }
   };
-
-  // // Function to save data to AsyncStorage
-  // const saveData = async newData => {
-  //   try {
-  //     await AsyncStorage.setItem('your_storage_key', JSON.stringify(newData));
-  //     setData(newData);
-  //   } catch (error) {
-  //     console.error('Error saving data to AsyncStorage:', error);
-  //   }
-  // };
 
   const addTransaction = async (amount: string, account: any) => {
     const arrTransactions = transactions.concat();
